@@ -1,4 +1,4 @@
-(defproject norwegian-national-id-validator "0.1.0"
+(defproject norwegian-national-id-validator "0.1.1-SNAPSHOT"
   :description "Validate Norwegian national identity numbers (birth number (fødselsnummer), D-number, H-number and FH-number)."
   :url "https://github.com/ivarref/norwegian-national-id-validator"
   :license {:name "Eclipse Public License"
