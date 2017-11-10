@@ -57,5 +57,19 @@
     (is (= [15] (possibleAgesOfPersonWithIdNumber "03110175255" "19022017")))
     (is (= [] (possibleAgesOfPersonWithIdNumber "03119975246" "19022017"))))
 
+  (testing "empty string should be treated as invalid national id number"
+    (is (ex-data (validateNorwegianIdNumber-exdata ""))))
+
+  (testing "nil should be treated as invalid national id number"
+    (is (= :not-str-input (:code (ex-data (validateNorwegianIdNumber-exdata nil))))))
+
+  (testing "other datatypes than string should be treated as invalid national id number"
+    (is (= :not-str-input (:code (ex-data (validateNorwegianIdNumber-exdata ["Hello" "World"]))))))
+
   (testing "is not part of an FH number"
     (is (empty? (possibleAgesOfPersonWithIdNumber "83119849925" "19022017")))))
+
+#_(defn list-valid-numbers [ddmmyy]
+  (doseq [i (range 10000 99999)]
+    (when (validate-norwegian-id-number (str ddmmyy i))
+      (println (str ddmmyy i)))))

@@ -45,9 +45,9 @@
                  dd (.getDate now)
                  mm (inc (.getMonth now))
                  yyyy (.getFullYear now)]
-                (str (when (< dd 10) "0") dd
-                     (when (< mm 10) "0") mm
-                     yyyy))))
+             (str (when (< dd 10) "0") dd
+                  (when (< mm 10) "0") mm
+                  yyyy))))
 
 (defn diff-years [a b]
   {:pre [(= 8 (count a)) (= 8 (count b))]}
@@ -130,8 +130,9 @@
 (defn validateNorwegianIdNumber-exdata
   ([idNumber] (validateNorwegianIdNumber-exdata idNumber (now-DDMMYYYY)))
   ([idNumber nowddMMyyyy]
-   (let [trimmed (str/trim idNumber)]
-     (cond (is-not-pos-int trimmed) (ex-info "Not a number" {:value trimmed :code :nan})
+   (let [trimmed (str/trim (if (not (string? idNumber)) "" idNumber))]
+     (cond (not (string? idNumber)) (ex-info "Not string input" {:value idNumber :code :not-str-input})
+           (is-not-pos-int trimmed) (ex-info "Not a number" {:value trimmed :code :nan})
            (not= 11 (count trimmed)) (ex-info "Incorrect length" {:value trimmed :code :count})
            (not (isValidCheckDigits trimmed)) (ex-info "Digit modulo incorrect" {:value trimmed :code :digitcheck})
            (= :FHNumber (idNumberType trimmed)) true
