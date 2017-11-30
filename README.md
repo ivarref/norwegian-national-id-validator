@@ -16,11 +16,13 @@ Add `[norwegian-national-id-validator "0.1.1"]` to your dependency vector.
 Add `[norwegian-national-id-validator.core :refer [validate-norwegian-id-number]]`
 to your require section.
 
-    (validate-norwegian-id-number "29029900157")
-    => false
+```clojure
+(validate-norwegian-id-number "29029900157")
+=> false
     
-    (validate-norwegian-id-number "29029600013")
-    => true
+(validate-norwegian-id-number "29029600013")
+=> true
+```
 
 ## Example usage with prismatic/schema
 
