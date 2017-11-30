@@ -39,6 +39,11 @@ to your require section.
   Schema
   (spec [this] (leaf/leaf-spec (spec/simple-precondition this nin-validator/validate-norwegian-id-number)))
   (explain [this] (list 'validate-norwegian-id-number)))
+  
+  
+(ns user.my-other-ns
+  (:require [user.nin-schema :as nin-schema])
+  (:import (user.nin_schema NinSchema)))
 
 ; (test/is (= {:nin "10101097000"} (s/validate {:nin (NinSchema.)} {:nin "10101097000"})))
 ; (test/is (ex-data (s/validate {:nin (NinSchema.)} {:nin "12345678901"})))
