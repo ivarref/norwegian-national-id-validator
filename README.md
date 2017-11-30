@@ -22,6 +22,26 @@ to your require section.
     (validate-norwegian-id-number "29029600013")
     => true
 
+## Example usage with prismatic/schema
+
+```clojure
+(ns user.nin-schema
+  (:require [norwegian-national-id-validator.core :as nin-validator]
+            [schema.spec.core :as spec]
+            [schema.spec.leaf :as leaf]
+            [clojure.test :as test]
+            [schema.core :as s])
+  (:import (schema.core Schema)))
+
+(clojure.core/defrecord NinSchema []
+  Schema
+  (spec [this] (leaf/leaf-spec (spec/simple-precondition this nin-validator/validate-norwegian-id-number)))
+  (explain [this] (list 'validate-norwegian-id-number)))
+
+; (test/is (= {:nin "10101097000"} (s/validate {:nin (NinSchema.)} {:nin "10101097000"})))
+; (test/is (ex-data (s/validate {:nin (NinSchema.)} {:nin "12345678901"})))
+```
+
 ## Tests
 
     lein test
