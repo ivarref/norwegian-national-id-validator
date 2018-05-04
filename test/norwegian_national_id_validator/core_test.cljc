@@ -1,8 +1,8 @@
 (ns norwegian-national-id-validator.core-test
   (:require #?(:clj [clojure.test :refer :all]
                :cljs [cljs.test :refer-macros [deftest is testing]])
-                    [norwegian-national-id-validator.core :refer [validateNorwegianIdNumber-exdata possibleAgesOfPersonWithIdNumber]]
-                    [norwegian-national-id-validator.nintestdata :as nintestdata]))
+              [norwegian-national-id-validator.core :refer [validateNorwegianIdNumber-exdata possibleAgesOfPersonWithIdNumber]]
+              [norwegian-national-id-validator.nintestdata :as nintestdata]))
 
 ; ported from https://github.com/mikaello/norwegian-national-id-validator/blob/master/__test__/index.test.js
 
@@ -38,6 +38,10 @@
     (is (nil? (ex-data (validateNorwegianIdNumber-exdata "81234567802"))))
     (is (nil? (ex-data (validateNorwegianIdNumber-exdata "91234567883")))))
 
+  (testing "spaces are treated as error"
+    (is (some? (ex-data (validateNorwegianIdNumber-exdata " 81234567802"))))
+    (is (some? (ex-data (validateNorwegianIdNumber-exdata "91234567883 ")))))
+
   (testing "works with H numbers"
     (is (nil? (ex-data (validateNorwegianIdNumber-exdata "01415612385"))))
     (is (ex-data (validateNorwegianIdNumber-exdata "01535612303"))))
@@ -68,8 +72,3 @@
 
   (testing "is not part of an FH number"
     (is (empty? (possibleAgesOfPersonWithIdNumber "83119849925" "19022017")))))
-
-#_(defn list-valid-numbers [ddmmyy]
-  (doseq [i (range 10000 99999)]
-    (when (validate-norwegian-id-number (str ddmmyy i))
-      (println (str ddmmyy i)))))

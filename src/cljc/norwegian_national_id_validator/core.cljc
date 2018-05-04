@@ -130,14 +130,13 @@
 (defn validateNorwegianIdNumber-exdata
   ([idNumber] (validateNorwegianIdNumber-exdata idNumber (now-DDMMYYYY)))
   ([idNumber nowddMMyyyy]
-   (let [trimmed (str/trim (if (not (string? idNumber)) "" idNumber))]
-     (cond (not (string? idNumber)) (ex-info "Not string input" {:value idNumber :code :not-str-input})
-           (is-not-pos-int trimmed) (ex-info "Not a number" {:value trimmed :code :nan})
-           (not= 11 (count trimmed)) (ex-info "Incorrect length" {:value trimmed :code :count})
-           (not (isValidCheckDigits trimmed)) (ex-info "Digit modulo incorrect" {:value trimmed :code :digitcheck})
-           (= :FHNumber (idNumberType trimmed)) true
-           (empty? (possibleAgesOfPersonWithIdNumber trimmed nowddMMyyyy)) (ex-info "No possible ages of person" {:value trimmed :code :age})
-           :else true))))
+   (cond (not (string? idNumber)) (ex-info "Not string input" {:value idNumber :code :not-str-input})
+         (is-not-pos-int idNumber) (ex-info "Not a number" {:value idNumber :code :nan})
+         (not= 11 (count idNumber)) (ex-info "Incorrect length" {:value idNumber :code :count})
+         (not (isValidCheckDigits idNumber)) (ex-info "Digit modulo incorrect" {:value idNumber :code :digitcheck})
+         (= :FHNumber (idNumberType idNumber)) true
+         (empty? (possibleAgesOfPersonWithIdNumber idNumber nowddMMyyyy)) (ex-info "No possible ages of person" {:value idNumber :code :age})
+         :else true)))
 
 (defn validate-norwegian-id-number [idNumber]
   (true? (validateNorwegianIdNumber-exdata idNumber)))
