@@ -8,7 +8,7 @@ Compiles to both Clojure and ClojureScript. No external dependencies.
 
 [![Clojars Project](http://clojars.org/norwegian-national-id-validator/latest-version.svg)](http://clojars.org/norwegian-national-id-validator)
 
-Add `[norwegian-national-id-validator "0.1.1"]` to your dependency vector.
+Add `[norwegian-national-id-validator "0.1.2"]` to your dependency vector.
 
 
 ## Usage
