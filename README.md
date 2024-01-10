@@ -6,14 +6,11 @@ Compiles to both Clojure and ClojureScript. No external dependencies.
 
 ## Installation
 
-[![Clojars Project](http://clojars.org/norwegian-national-id-validator/latest-version.svg)](http://clojars.org/norwegian-national-id-validator)
-
-Add `[norwegian-national-id-validator/norwegian-national-id-validator "0.1.3"]` to your dependency vector.
-
+[![Clojars Project](https://img.shields.io/clojars/v/com.github.ivarref/norwegian-national-id-validator.svg)](https://clojars.org/com.github.ivarref/norwegian-national-id-validator)
 
 ## Usage
 
-Add `[norwegian-national-id-validator.core :refer [norwegian-id-number?]]`
+Add `[com.github.ivarref.norwegian-national-id-validator :refer [norwegian-id-number?]]`
 to your require section.
 
 ```clojure
@@ -32,7 +29,7 @@ to your require section.
 
 ```clojure
 (ns user.nin-schema
-  (:require [norwegian-national-id-validator.core :as nin-validator]
+  (:require [com.github.ivarref.norwegian-national-id-validator :as nin-validator]
             [schema.spec.core :as spec]
             [schema.spec.leaf :as leaf]
             [clojure.test :as test]
