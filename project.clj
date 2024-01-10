@@ -16,6 +16,9 @@
             "install"   ["do" "clean," "install"]
             "deploy"    ["do" "clean," "deploy" "clojars"]}
 
+  :deploy-repositories [["releases"  {:sign-releases false :url "https://clojars.org/repo"}]
+                        ["snapshots" {:sign-releases false :url "https://clojars.org/repo"}]]
+
   :source-paths ["src/cljc"]
   :cljsbuild {:builds {:main {:source-paths ["src/cljc"]
                               :jar          true
