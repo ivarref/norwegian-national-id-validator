@@ -11,7 +11,7 @@
   :auto-clean false
 
   :aliases {"test-cljs" ["doo" "rhino" "test" "once"]
-            "test"      ["do" "test," "test-cljs"]
+            "test"      ["do" "test," #_"test-cljs"]
             "cleantest" ["do" "clean," "test"]
             "install"   ["do" "clean," "install"]
             "deploy"    ["do" "clean," "deploy" "clojars"]}

@@ -13,14 +13,18 @@ Add `[norwegian-national-id-validator "0.1.2"]` to your dependency vector.
 
 ## Usage
 
-Add `[norwegian-national-id-validator.core :refer [validate-norwegian-id-number]]`
+Add `[norwegian-national-id-validator.core :refer [norwegian-id-number?]]`
 to your require section.
 
 ```clojure
-(validate-norwegian-id-number "29029900157")
+(norwegian-id-number? "29029900157")
 => false
     
-(validate-norwegian-id-number "29029600013")
+(norwegian-id-number? "29029600013")
+=> true
+
+; synthetic ID numbers, as per https://docs.digdir.no/docs/idporten/idporten/idporten_testbrukere#testid, is also supported:
+(norwegian-id-number? "29029600013")
 => true
 ```
 
@@ -37,8 +41,8 @@ to your require section.
 
 (clojure.core/defrecord NinSchema []
   Schema
-  (spec [this] (leaf/leaf-spec (spec/simple-precondition this nin-validator/validate-norwegian-id-number)))
-  (explain [this] (list 'validate-norwegian-id-number)))
+  (spec [this] (leaf/leaf-spec (spec/simple-precondition this nin-validator/norwegian-id-number?)))
+  (explain [this] (list 'norwegian-id-number?)))
   
   
 (ns user.my-other-ns

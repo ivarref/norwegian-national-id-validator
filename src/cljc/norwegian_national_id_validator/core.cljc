@@ -38,6 +38,11 @@
         YYYY (parse-pos-int (subs dateDDMMYYYY 4 8))]
     (is-valid-date-months DD MM YYYY (if (leap YYYY) days-in-months-leap days-in-months))))
 
+(defn pad2 [x]
+  (if (< x 10)
+    (str "0" x)
+    (str x)))
+
 (defn now-DDMMYYYY []
   {:post [(is-valid-date %)]}
   #?(:clj  (.format (java.time.LocalDate/now) (java.time.format.DateTimeFormatter/ofPattern "ddMMyyyy"))
@@ -45,8 +50,8 @@
                  dd (.getDate now)
                  mm (inc (.getMonth now))
                  yyyy (.getFullYear now)]
-             (str (when (< dd 10) "0") dd
-                  (when (< mm 10) "0") mm
+             (str (pad2 dd)
+                  (pad2 mm)
                   yyyy))))
 
 (defn diff-years [a b]
@@ -127,6 +132,29 @@
        (filter #(and (>= % 0) (< % 125)))
        (vec)))
 
+(defn idNumber->MM [idNumber]
+  (subs idNumber 2 4))
+
+(comment
+  (idNumber->MM "ddMMYYYY"))
+
+(defn synthetic-number [idNumber]
+  (let [month-int (parse-pos-int (idNumber->MM idNumber))]
+    (if (and (>= month-int 81)
+             (<= month-int 92))
+      ; TestID støtter innlogging med syntetisk personidentifikator (+80 på måned-sifrene), og man slipper da risiko for å blande sammen test- og produksjonsdata.
+      (str (subs idNumber 0 2)
+           (pad2 (- month-int 80))
+           (subs idNumber 4 11))
+      idNumber)))
+
+(comment
+  (and
+    (= "1201" (str/join "" (take 4 (synthetic-number "12812199631"))))
+    (= "1008" (str/join "" (take 4 (synthetic-number "10884399853"))))
+    (= "1312" (str/join "" (take 4 (synthetic-number "13922947702"))))
+    (= "1393" (str/join "" (take 4 (synthetic-number "13932947702"))))))
+
 (defn validateNorwegianIdNumber-exdata
   ([idNumber] (validateNorwegianIdNumber-exdata idNumber (now-DDMMYYYY)))
   ([idNumber nowddMMyyyy]
@@ -135,8 +163,19 @@
          (not= 11 (count idNumber)) (ex-info "Incorrect length" {:value idNumber :code :count})
          (not (isValidCheckDigits idNumber)) (ex-info "Digit modulo incorrect" {:value idNumber :code :digitcheck})
          (= :FHNumber (idNumberType idNumber)) true
-         (empty? (possibleAgesOfPersonWithIdNumber idNumber nowddMMyyyy)) (ex-info "No possible ages of person" {:value idNumber :code :age})
+         (empty? (possibleAgesOfPersonWithIdNumber (synthetic-number idNumber) nowddMMyyyy)) (ex-info "No possible ages of person" {:value idNumber :code :age})
          :else true)))
 
+; https://docs.digdir.no/docs/idporten/idporten/idporten_testbrukere#testid
+; https://testdata.skatteetaten.no/web/testnorge/soek/freg
+
+(comment
+  (validateNorwegianIdNumber-exdata "12812199631"))
+
 (defn validate-norwegian-id-number [idNumber]
+  (true? (validateNorwegianIdNumber-exdata idNumber)))
+
+(defn norwegian-id-number?
+  "Returns true iff `idnumber` is a valid Norwegian ID number."
+  [idNumber]
   (true? (validateNorwegianIdNumber-exdata idNumber)))

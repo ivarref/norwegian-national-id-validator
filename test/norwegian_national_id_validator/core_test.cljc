@@ -1,8 +1,8 @@
 (ns norwegian-national-id-validator.core-test
-  (:require #?(:clj [clojure.test :refer :all]
+  (:require #?(:clj  [clojure.test :refer :all]
                :cljs [cljs.test :refer-macros [deftest is testing]])
-              [norwegian-national-id-validator.core :refer [validateNorwegianIdNumber-exdata possibleAgesOfPersonWithIdNumber]]
-              [norwegian-national-id-validator.nintestdata :as nintestdata]))
+            [norwegian-national-id-validator.core :as core :refer [validateNorwegianIdNumber-exdata possibleAgesOfPersonWithIdNumber]]
+            [norwegian-national-id-validator.nintestdata :as nintestdata]))
 
 ; ported from https://github.com/mikaello/norwegian-national-id-validator/blob/master/__test__/index.test.js
 
@@ -72,3 +72,11 @@
 
   (testing "is not part of an FH number"
     (is (empty? (possibleAgesOfPersonWithIdNumber "83119849925" "19022017")))))
+
+(deftest synthetic-support
+  (is (true? (core/norwegian-id-number? "12812199631")))
+  (is (true? (core/norwegian-id-number? "10884399853")))
+  (is (true? (core/norwegian-id-number? "13922947702")))
+  (is (false? (core/norwegian-id-number? "13932947702")))
+  (is (= "13122947702" (core/synthetic-number "13922947702")))
+  (is (= "13932947702" (core/synthetic-number "13932947702"))))
