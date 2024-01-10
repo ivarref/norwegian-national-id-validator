@@ -21,7 +21,7 @@ to your require section.
 => true
 
 ; synthetic ID numbers, as per https://docs.digdir.no/docs/idporten/idporten/idporten_testbrukere#testid, is also supported:
-(norwegian-id-number? "29029600013")
+(norwegian-id-number? "13922947702")
 => true
 ```
 
