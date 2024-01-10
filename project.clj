@@ -13,8 +13,8 @@
   :aliases {"test-cljs" ["doo" "rhino" "test" "once"]
             "test"      ["do" "test," #_"test-cljs"]
             "cleantest" ["do" "clean," "test"]
-            "install"   ["do" "clean," "install"]
-            "deploy"    ["do" "clean," "deploy" "clojars"]}
+            "install"   ["do" "clean," "install"]}
+            ;"deploy"    ["do" "clean," "deploy" "clojars"]}
 
   :deploy-repositories [["releases"  {:sign-releases false :url "https://clojars.org"}]
                         ["snapshots" {:sign-releases false :url "https://clojars.org"}]]
