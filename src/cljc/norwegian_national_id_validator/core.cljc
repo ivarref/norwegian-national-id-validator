@@ -10,7 +10,7 @@
 
 (def char->int
   #?(:cljs int
-     :clj (fn [i] (Character/digit i 10))))
+     :clj (fn [i] (Character/digit ^char i 10))))
 
 (defn valider-kontrollsiffer-foedsels-eller-Dnummer
   "Validerer et fødsels-eller-d-nummer(1964 og 2032-type) ved å sjekke kontrollsifrene iht.
