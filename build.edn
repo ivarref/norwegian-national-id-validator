@@ -1,4 +1,11 @@
 {:lib      com.github.ivarref/norwegian-national-id-validator
- :version  "0.1.{{git/commit-count}}"
+ :version  "0.2.{{git/commit-count}}"
+
+ :github-actions? true
+
+ :scm {:connection "scm:git:git://github.com/ivarref/norwegian-national-id-validator.git"
+       :developerConnection "scm:git:ssh://git@github.com/ivarref/norwegian-national-id-validator.git"
+       :url "https://github.com/ivarref/norwegian-national-id-validator"}
+
  :licenses [{:name "Eclipse Public License - v 2.0"
              :url  "https://www.eclipse.org/legal/epl-2.0/"}]}
