@@ -1,3 +1,4 @@
 {:paths   ["src/cljc"]
  :aliases {:build {:deps       {com.github.liquidz/build.edn {:mvn/version "0.11.241"}}
-                   :ns-default build-edn.main}}}
+                   :ns-default build-edn.main}
+           :test {:extra-paths ["test"]}}}
